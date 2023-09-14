@@ -1,0 +1,13 @@
+{
+	"name": "sveltepress",
+	"private": true,
+	"version": "0.0.1",
+	"workspaces": [
+		"client"
+	],
+	"scripts": {
+		"dev:client": "yarn workspace client dev",
+		"dev:server": "yarn workspace server dev",
+		"storybook": "yarn wokspace client storybook"
+	}
+}
