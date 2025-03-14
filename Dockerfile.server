@@ -1,0 +1,9 @@
+# syntax=docker/dockerfile:1
+FROM node:iron-alpine
+WORKDIR /app
+COPY ./server/package.json .
+COPY ./yarn.lock .
+COPY .env .
+RUN yarn install
+EXPOSE 3000
+CMD ["yarn", "dev"]

@@ -1,0 +1,33 @@
+services:
+  client:
+    container_name: client
+    build:
+      context: .
+      dockerfile: Dockerfile.client
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+  storybook:
+    container_name: storybook
+    build:
+      context: .
+      dockerfile: Dockerfile.storybook
+    ports:
+      - "6006:6006"
+    volumes:
+      - "./client:/app"
+      - "/app/node_modules"
+  api:
+    container_name: api
+    build:
+      context: .
+      dockerfile: Dockerfile.server
+    env_file:
+      - .env
+    ports:
+      - ${PORT}:${PORT}
+    volumes:
+      - ./server:/app
+      - /app/node_modules
