@@ -6,6 +6,8 @@ services:
       dockerfile: Dockerfile.client
     ports:
       - "5173:5173"
+    depends_on:
+      - api
     volumes:
       - ./client:/app
       - /app/node_modules
@@ -24,6 +26,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.server
+    depends_on:
+      - db
     env_file:
       - .env
     ports:
@@ -31,3 +35,16 @@ services:
     volumes:
       - ./server:/app
       - /app/node_modules
+  db:
+    container_name: postgresql
+    image: postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
