@@ -19,3 +19,15 @@ services:
     volumes:
       - "./client:/app"
       - "/app/node_modules"
+  server:
+    container_name: server
+    build:
+      context: .
+      dockerfile: Dockerfile.server
+    env_file:
+      - .env
+    ports:
+      - ${PORT}:${PORT}
+    volumes:
+      - ./server:/app
+      - /app/node_modules
