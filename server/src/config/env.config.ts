@@ -5,4 +5,4 @@ dotenv.config({
 	path: path.resolve(__dirname, "../../../.env"),
 });
 
-export const { PORT } = process.env;
+export const { PORT, DATABASE_URL } = process.env;
