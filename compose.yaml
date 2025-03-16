@@ -5,7 +5,7 @@ services:
       context: .
       dockerfile: Dockerfile.client
     ports:
-      - "5173:5173"
+      - 5173:5173
     depends_on:
       - api
     volumes:
@@ -17,7 +17,7 @@ services:
       context: .
       dockerfile: Dockerfile.storybook
     ports:
-      - "6006:6006"
+      - 6006:6006
     volumes:
       - "./client:/app"
       - "/app/node_modules"
@@ -40,11 +40,38 @@ services:
     image: postgres
     restart: always
     ports:
-      - "5432:5432"
+      - 5432:5432
     env_file:
       - .env
     volumes:
       - pgdata:/var/lib/postgresql/data
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus
+    ports:
+      - 9090:9090
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus-data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    depends_on:
+      - api
+    logging:
+      driver: none
+
+  grafana:
+    container_name: grafana
+    image: grafana/grafana:latest
+    ports:
+      - ${METRICS_PORT}:3000
+    volumes:
+      - ./graphana/data:/var/lib/grafana
+    depends_on:
+      - prometheus
+    logging:
+      driver: none
 
 volumes:
   pgdata:
+  prometheus-data:
